@@ -1,21 +1,26 @@
 'Declare statements
-Dim strVolumeName, strDriveLetter ,strSourcePath, strModifiedYear, strModifiedMonth, strModifiedDay
-Dim objFolder
+Dim strVolumeName, strDriveLetter ,strSourcePath, strModifiedYear, strModifiedMonth, strModifiedDay, strHomePath, strPhotoFolder
+Dim objFolder, objShell
 
 
 Set objFSO = CreateObject("Scripting.FileSystemObject")
+Set objShell = CreateObject("Wscript.Shell")
 set fsoDrives = objFSO.Drives
 
 
 'Set variable values
 strVolumeName = "NIKON D7000"			' Name of the volume where photos are stored
 strSourcePath = ":\DCIM\114D7000"		' This is the folder on the SD Card where photos are stored
-photoFolder = "C:\Users\[removed]\OneDrive\Pictures\!inProgress\"
+strHomePath = objShell.ExpandEnvironmentStrings("%USERPROFILE%")
+strPhotoFolder = strHomePath & "\OneDrive\Pictures\!inProgress\"
+
 
 processDrives(strVolumeName)
 
 sub processDrives (strVolumeName)
+	on error resume next
 	for each objDrive in fsoDrives
+		msgbox objDrive 
 		if objDrive.VolumeName = strVolumeName then
 			strDriveLetter = objDrive.DriveLetter
 			processPhotos strDriveLetter, strSourcePath
@@ -43,7 +48,7 @@ sub processPhotos (strDriveLetter, strSourcePath)
 		end if
 		
 		strISOModifiedDate = strModifiedYear & "-" & strModifiedMonth & "-" & strModifiedDay
-		strDestinationFolder = photoFolder & strISOModifiedDate
+		strDestinationFolder = strPhotoFolder & strISOModifiedDate
 		
 		if not objFSO.FolderExists(strDestinationFolder) then
 			processModifiedDate strDestinationFolder
