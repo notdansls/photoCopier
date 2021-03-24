@@ -6,4 +6,4 @@ This readme is an early draft this will work in two parts
 1) the script that will do the work
 2) the script that will check to see if the scheduled task is set up and create if necessary
 
-Commit Test...
+Commit Test... (now with added signing for verification)
