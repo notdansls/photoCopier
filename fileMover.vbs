@@ -20,7 +20,6 @@ processDrives(strVolumeName)
 sub processDrives (strVolumeName)
 	on error resume next
 	for each objDrive in fsoDrives
-		msgbox objDrive 
 		if objDrive.VolumeName = strVolumeName then
 			strDriveLetter = objDrive.DriveLetter
 			processPhotos strDriveLetter, strSourcePath
